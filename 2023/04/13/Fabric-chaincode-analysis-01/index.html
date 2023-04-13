@@ -203,7 +203,7 @@
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>April 13, 2023</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>7942</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>7703</span>
     </div>
   </div>
 </section>
@@ -242,13 +242,6 @@
 
 <h6 id="core-yaml配置文件"><a href="#core-yaml配置文件" class="headerlink" title="#core.yaml配置文件"></a>#core.yaml配置文件</h6><p>在core.yaml配置文件中设置，通过fabric-ccenv</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">chaincode:</span></span><br><span class="line">    <span class="attr">id:</span></span><br><span class="line">        <span class="attr">path:</span></span><br><span class="line">        <span class="attr">name:</span></span><br><span class="line">        <span class="comment"># Generic builder environment, suitable for most chaincode types</span></span><br><span class="line">    <span class="attr">builder:</span> <span class="string">$(DOCKER_NS)/fabric-ccenv:$(TWO_DIGIT_VERSION)</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">pull:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">golang:</span></span><br><span class="line">        <span class="comment"># golang will never need more than baseos</span></span><br><span class="line">        <span class="attr">runtime:</span> <span class="string">$(DOCKER_NS)/fabric-baseos:$(TWO_DIGIT_VERSION)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># whether or not golang chaincode should be linked dynamically</span></span><br><span class="line">        <span class="attr">dynamicLink:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>docker run -d <br>    –name opengrok <br>    -p 12306:8080/tcp <br>    -e SYNC_PERIOD_MINUTES=”60” <br>    -v /home/zhguan/src:/opengrok/src/ <br>    -v /home/zhguan/etc:/opengrok/etc/ <br>    -v /home/zhguan/data:/opengrok/data/ <br>    opengrok/docker:latest</p>
-
       </section>
       <section class="extra">
         

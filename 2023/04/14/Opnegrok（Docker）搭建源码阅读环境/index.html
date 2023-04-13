@@ -201,7 +201,7 @@ opengrok/R...">
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>April 14, 2023</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>402</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1009</span>
     </div>
   </div>
 </section>
@@ -214,6 +214,34 @@ opengrok/R...">
 <p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/opengrok/docker">opengrok/docker - Docker Image | Docker Hub</a></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name opengrok \</span><br><span class="line">    -p <span class="number">12306</span>:<span class="number">8080</span>/tcp \</span><br><span class="line">    -e SYNC_PERIOD_MINUTES=<span class="string">&quot;60&quot;</span> \</span><br><span class="line">    -v /home/zhguan/src:/opengrok/src/ \</span><br><span class="line">    -v /home/zhguan/etc:/opengrok/etc/ \</span><br><span class="line">    -v /home/zhguan/data:/opengrok/data/ \</span><br><span class="line">    opengrok/docker:latest</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><p>命令行解释：</p>
+<ul>
+<li>-d：后台运行    </li>
+<li>-v：将宿主机的某个目录挂载到容器内的目录，这里是将某个目录挂载到<code>/opengrok/src</code></li>
+<li>-p：将宿主机的12306端口映射到容器的8080端口</li>
+<li>-e：设置环境变量，SYNC_PERIOD_MINUTES是索引的更新周期，这里设置半小时更新一次</li>
+</ul>
+</li>
+<li><p>查看搭建情况（chatgpt生成）：</p>
+</li>
+</ul>
+<p>可以使用以下步骤在Ubuntu上查看本地网页内容：</p>
+<ol>
+<li><p>打开您的网页，例如 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a>。</p>
+</li>
+<li><p>然后打开终端。</p>
+</li>
+<li><p>使用 curl 命令来获取该网页的内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:8080</span><br></pre></td></tr></table></figure></li>
+<li><p>终端将输出该网页的 HTML 内容。如果您的网页使用其他类型的内容（如 JSON 或 XML），则可以添加参数 -H “Content-Type: application/json” 或 -H “Content-Type: application/xml” 来相应地指定内容类型。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -H &quot;Content-Type: application/json&quot; http://localhost:8080</span><br></pre></td></tr></table></figure></li>
+<li><p>如果您想将输出保存到文件中，可以使用以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:8080 &gt; output.html</span><br></pre></td></tr></table></figure>
+
+<p>这将把网页的内容保存到名为 output.html 的文件中。</p>
+</li>
+</ol>
 
       </section>
       <section class="extra">
