@@ -6,12 +6,13 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Archive - Guan’ Blog</title>
+  <title>Opnegrok（Docker）搭建源码阅读环境 - Guan’ Blog</title>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="google" content="notranslate" />
   <meta name="keywords" content="computer science">
-  
+  <meta name="description" content="Opengrok的github：
+opengrok/R...">
   <meta name="author" content="KuanXY">
   <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
   <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
@@ -152,7 +153,7 @@
       
       
     </div>
-    <div class="center">归档</div>
+    <div class="center">Opnegrok（Docker）搭建源码阅读环境</div>
     <div class="right">
       <i class="iconfont iconmenu j-navbar-menu"></i>
     </div>
@@ -188,53 +189,78 @@
   </div>
 </nav>
   <main id="main">
-  <section class="archive">
-    <div class="archive-container">
-      <div class="archive-post">
-        <h3 class="archive-total">归档: 6 篇</h3>
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">Opnegrok（Docker）搭建源码阅读环境</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>April 14, 2023</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>402</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        
+        <p>Opengrok的github：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/oracle/opengrok/blob/master/docker/README.md">opengrok/README.md at master · oracle/opengrok (github.com)</a></p>
+<p>Opengrok的Docker Hub：</p>
+<p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/opengrok/docker">opengrok/docker - Docker Image | Docker Hub</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name opengrok \</span><br><span class="line">    -p <span class="number">12306</span>:<span class="number">8080</span>/tcp \</span><br><span class="line">    -e SYNC_PERIOD_MINUTES=<span class="string">&quot;60&quot;</span> \</span><br><span class="line">    -v /home/zhguan/src:/opengrok/src/ \</span><br><span class="line">    -v /home/zhguan/etc:/opengrok/etc/ \</span><br><span class="line">    -v /home/zhguan/data:/opengrok/data/ \</span><br><span class="line">    opengrok/docker:latest</span><br></pre></td></tr></table></figure>
+
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>KuanXY</li>
+    <li><strong>本文链接：</strong><a href="https://kuanxy.github.io/2023/04/14/Opnegrok%EF%BC%88Docker%EF%BC%89%E6%90%AD%E5%BB%BA%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%8E%AF%E5%A2%83/index.html" title="https:&#x2F;&#x2F;kuanxy.github.io&#x2F;2023&#x2F;04&#x2F;14&#x2F;Opnegrok%EF%BC%88Docker%EF%BC%89%E6%90%AD%E5%BB%BA%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%8E%AF%E5%A2%83&#x2F;index.html">https:&#x2F;&#x2F;kuanxy.github.io&#x2F;2023&#x2F;04&#x2F;14&#x2F;Opnegrok%EF%BC%88Docker%EF%BC%89%E6%90%AD%E5%BB%BA%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%8E%AF%E5%A2%83&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
         
         
-          
-            <h3 class="archive-year">2023 年</h3>
-          
-          <div class="archive-item">
-            <a class="archive-date" href="/2023/04/14/Opnegrok%EF%BC%88Docker%EF%BC%89%E6%90%AD%E5%BB%BA%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%8E%AF%E5%A2%83/">April 14</a>
-            <a class="archive-title" href="/2023/04/14/Opnegrok%EF%BC%88Docker%EF%BC%89%E6%90%AD%E5%BB%BA%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%8E%AF%E5%A2%83/">Opnegrok（Docker）搭建源码阅读环境</a>
-          </div>
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/ed9f37fb143d5ba3c3b3bf35572c4a9.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2023/04/13/Fabric-chaincode-analysis-01/">Fabric chaincode analysis 01<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
         
           
-          <div class="archive-item">
-            <a class="archive-date" href="/2023/04/13/Fabric-chaincode-analysis-01/">April 13</a>
-            <a class="archive-title" href="/2023/04/13/Fabric-chaincode-analysis-01/">Fabric chaincode analysis 01</a>
-          </div>
-        
-          
-          <div class="archive-item">
-            <a class="archive-date" href="/2023/04/11/github%E5%8A%A0%E9%80%9F/">April 11</a>
-            <a class="archive-title" href="/2023/04/11/github%E5%8A%A0%E9%80%9F/">github加速</a>
-          </div>
-        
-          
-          <div class="archive-item">
-            <a class="archive-date" href="/2023/04/11/benchmark/">April 11</a>
-            <a class="archive-title" href="/2023/04/11/benchmark/">benchmark</a>
-          </div>
-        
-          
-          <div class="archive-item">
-            <a class="archive-date" href="/2023/04/11/First-Blog/">April 11</a>
-            <a class="archive-title" href="/2023/04/11/First-Blog/">First Blog</a>
-          </div>
-        
-          
-          <div class="archive-item">
-            <a class="archive-date" href="/2023/04/11/hello-world/">April 11</a>
-            <a class="archive-title" href="/2023/04/11/hello-world/">Hello World</a>
-          </div>
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    
+  </aside>
+
         
       </div>
     </div>
-  </section>
+  </div>
 </main>
   
 
