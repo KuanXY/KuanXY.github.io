@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Fabric chaincode analysis 01 - Guan’ Blog</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  <meta name="keywords" content="computer science">
+  <meta name="description" content="
+
+
+本文参考《区块链——原理、设计与应用》及Fabr...">
+  <meta name="author" content="KuanXY">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1445822_p6ry5n7lrr.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      loading: {
+        gif: '/images/theme/loading.gif',
+        lottie: ''
+      },
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: {
+          gif: '/images/theme/loading.gif',
+          lottie: ''
+        }
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://guantypora.oss-cn-chengdu.aliyuncs.com/img/ed9f37fb143d5ba3c3b3bf35572c4a9.jpg',
+        wechat: 'https://guantypora.oss-cn-chengdu.aliyuncs.com/img/aacb2f7f774fd3d0065adaa8a9fde78.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '我在开了灯的床头下，想问问自己的心啊。',
+          typing: true,
+          api: 'https://v2.jinrishici.com/one.json',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="lock-screen">
+  <div class="loading" id="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">Fabric chaincode analysis 01</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">Fabric chaincode analysis 01</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>April 13, 2023</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>6223</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        
+        <hr>
+<hr>
+<blockquote>
+<p>本文参考《区块链——原理、设计与应用》及Fabric源码撰写</p>
+</blockquote>
+<h2 id="链码启动与初始化"><a href="#链码启动与初始化" class="headerlink" title="链码启动与初始化"></a>链码启动与初始化</h2><h3 id="ExecuteLegacyInit"><a href="#ExecuteLegacyInit" class="headerlink" title="ExecuteLegacyInit"></a>ExecuteLegacyInit</h3><h4 id="core-endorser-support-go"><a href="#core-endorser-support-go" class="headerlink" title="core/endorser/support.go"></a>core/endorser/support.go</h4><h5 id="ExecuteLegacyInit-1"><a href="#ExecuteLegacyInit-1" class="headerlink" title="#ExecuteLegacyInit"></a>#ExecuteLegacyInit</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 执行初始化部署方案并返回链码响应</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SupportImpl)</span></span> ExecuteLegacyInit(txParams *ccprovider.TransactionParams, name, version <span class="type">string</span>, input *pb.ChaincodeInput) (*pb.Response, *pb.ChaincodeEvent, <span class="type">error</span>) &#123;</span><br><span class="line">   <span class="keyword">return</span> s.ChaincodeSupport.ExecuteLegacyInit(txParams, name, version, input)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编译和启动链码"><a href="#编译和启动链码" class="headerlink" title="编译和启动链码"></a>编译和启动链码</h4><h4 id="core-chaincode-chaincode-support-go"><a href="#core-chaincode-chaincode-support-go" class="headerlink" title="core/chaincode/chaincode_support.go"></a>core/chaincode/chaincode_support.go</h4><h5 id="ExecuteLegacyInit-2"><a href="#ExecuteLegacyInit-2" class="headerlink" title="#ExecuteLegacyInit"></a>#ExecuteLegacyInit</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*ExecuteLegacyInit是一个临时方法，一旦旧样式的生命周期被完全否决，就应该删除它。理想情况下，在引入新的生命周期之后发布一个版本。它不尝试基于生命周期中的信息启动链代码，而是直接接受ChaincodeDeploymentSpec形式的容器信息。*/</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cs *ChaincodeSupport)</span></span> ExecuteLegacyInit(txParams *ccprovider.TransactionParams, ccName, ccVersion <span class="type">string</span>, input *pb.ChaincodeInput) (*pb.Response, *pb.ChaincodeEvent, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">/*FIXME：这是一个Hacker，我们不应该手动构建ccid，而是让生命周期为我们构建它。然而，这是将消失的遗留代码，因此目前可以接受（FAB-14627）*/</span></span><br><span class="line">	ccid := ccName + <span class="string">&quot;:&quot;</span> + ccVersion</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//若链码未实例化，则先启动并等待完成</span></span><br><span class="line">	h, err := cs.Launch(ccid)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//链码完成初始化：发送INIT消息给启动的链码容器</span></span><br><span class="line">	resp, err := cs.execute(pb.ChaincodeMessage_INIT, txParams, ccName, input, h)</span><br><span class="line">    <span class="comment">//返回执行结果</span></span><br><span class="line">	<span class="keyword">return</span> processChaincodeExecutionResult(txParams.TxID, ccName, resp, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ChaincodeSupport结构体"><a href="#ChaincodeSupport结构体" class="headerlink" title="ChaincodeSupport结构体"></a>ChaincodeSupport结构体</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ChaincodeSupport负责提供与peer链码的接口。</span></span><br><span class="line"><span class="keyword">type</span> ChaincodeSupport <span class="keyword">struct</span> &#123;</span><br><span class="line">	ACLProvider            ACLProvider</span><br><span class="line">	AppConfig              ApplicationConfigRetriever</span><br><span class="line">	BuiltinSCCs            scc.BuiltinSCCs</span><br><span class="line">	DeployedCCInfoProvider ledger.DeployedChaincodeInfoProvider</span><br><span class="line">	ExecuteTimeout         time.Duration</span><br><span class="line">	InstallTimeout         time.Duration</span><br><span class="line">	HandlerMetrics         *HandlerMetrics</span><br><span class="line">	HandlerRegistry        *HandlerRegistry</span><br><span class="line">	Keepalive              time.Duration</span><br><span class="line">	Launcher               Launcher</span><br><span class="line">	Lifecycle              Lifecycle</span><br><span class="line">	Peer                   *peer.Peer</span><br><span class="line">	Runtime                Runtime</span><br><span class="line">	TotalQueryLimit        <span class="type">int</span></span><br><span class="line">	UserRunsCC             <span class="type">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="cs-Launch-ccid"><a href="#cs-Launch-ccid" class="headerlink" title="#cs.Launch(ccid)"></a>#cs.Launch(ccid)</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cs *ChaincodeSupport)</span></span> Launch(ccid <span class="type">string</span>) (*Handler, <span class="type">error</span>) &#123;</span><br><span class="line">   <span class="keyword">if</span> h := cs.HandlerRegistry.Handler(ccid); h != <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> h, <span class="literal">nil</span></span><br><span class="line">   &#125;</span><br><span class="line">	<span class="comment">//创建并启动链码，核心过程</span></span><br><span class="line">   <span class="keyword">if</span> err := cs.Launcher.Launch(ccid, cs); err != <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>, errors.Wrapf(err, <span class="string">&quot;could not launch chaincode %s&quot;</span>, ccid)</span><br><span class="line">   &#125;</span><br><span class="line">	<span class="comment">//添加链码处理句柄</span></span><br><span class="line">   h := cs.HandlerRegistry.Handler(ccid)</span><br><span class="line">   <span class="keyword">if</span> h == <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>, errors.Errorf(<span class="string">&quot;claimed to start chaincode container for %s but could not find handler&quot;</span>, ccid)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> h, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="core-chaincode-runtime-launcher-go"><a href="#core-chaincode-runtime-launcher-go" class="headerlink" title="core/chaincode/runtime_launcher.go"></a>core/chaincode/runtime_launcher.go</h4><h5 id="Launch"><a href="#Launch" class="headerlink" title="#Launch"></a>#Launch</h5><p>简化错误应答</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *RuntimeLauncher)</span></span> Launch(ccid <span class="type">string</span>, streamHandler extcc.StreamHandler) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> startFailCh <span class="keyword">chan</span> <span class="type">error</span></span><br><span class="line">	<span class="keyword">var</span> timeoutCh &lt;-<span class="keyword">chan</span> time.Time</span><br><span class="line"></span><br><span class="line">	startTime := time.Now()</span><br><span class="line">	launchState, alreadyStarted := r.Registry.Launching(ccid)</span><br><span class="line">    <span class="comment">//如果没有启动则使用go routine启动链码容器</span></span><br><span class="line">	<span class="keyword">if</span> !alreadyStarted &#123;</span><br><span class="line">		startFailCh = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">error</span>, <span class="number">1</span>)</span><br><span class="line">		timeoutCh = time.NewTimer(r.StartupTimeout).C</span><br><span class="line">		<span class="comment">//启动一个go routine并编译并启动链码容器</span></span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="comment">// 完成构建过程以获得一致性信息</span></span><br><span class="line">			ccservinfo, err := r.Runtime.Build(ccid)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 指示的链码服务器型号。。。继续连接到CC</span></span><br><span class="line">			<span class="keyword">if</span> ccservinfo != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 默认peer-server模型。。。计算CC回调的连接信息</span></span><br><span class="line">			<span class="comment">// 并继续启动链代码</span></span><br><span class="line">			ccinfo, err := r.ChaincodeClientInfo(ccid) <span class="comment">//计算链码连接信息</span></span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">			<span class="keyword">if</span> ccinfo == <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">            <span class="comment">//尝试创建链码容器，并启动它</span></span><br><span class="line">			<span class="keyword">if</span> err = r.Runtime.Start(ccid, ccinfo); err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">            <span class="comment">//等待链码编译后完成</span></span><br><span class="line">			exitCode, err := r.Runtime.Wait(ccid)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">			launchState.Notify(errors.Errorf(<span class="string">&quot;container exited with %d&quot;</span>, exitCode))</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> err <span class="type">error</span></span><br><span class="line">	<span class="keyword">select</span> &#123; <span class="comment">//等待启动后的返回状态</span></span><br><span class="line">	<span class="keyword">case</span> &lt;-launchState.Done(): <span class="comment">//启动后未完成注册</span></span><br><span class="line">	<span class="keyword">case</span> err = &lt;-startFailCh: <span class="comment">//启动失败</span></span><br><span class="line">	<span class="keyword">case</span> &lt;-timeoutCh: <span class="comment">//启动超时</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	success := <span class="literal">true</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &amp;&amp; !alreadyStarted &#123; <span class="comment">//启动和失败则取消链码注册信息</span></span><br><span class="line">		success = <span class="literal">false</span></span><br><span class="line">		chaincodeLogger.Debugf(<span class="string">&quot;stopping due to error while launching: %+v&quot;</span>, err)</span><br><span class="line">		<span class="keyword">defer</span> r.Registry.Deregister(ccid)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	r.Metrics.LaunchDuration.With(</span><br><span class="line">		<span class="string">&quot;chaincode&quot;</span>, ccid,</span><br><span class="line">		<span class="string">&quot;success&quot;</span>, strconv.FormatBool(success),</span><br><span class="line">	).Observe(time.Since(startTime).Seconds())</span><br><span class="line"></span><br><span class="line">	chaincodeLogger.Debug(<span class="string">&quot;launch complete&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="core-container-container-go"><a href="#core-container-container-go" class="headerlink" title="core/container/container.go"></a>core/container/container.go</h4><p>#Build</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Router)</span></span> Build(ccid <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> instance Instance</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> r.ExternalBuilder != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// 目前，我们从FS中检索到的包ID始终是链代码用于注册的ccid</span></span><br><span class="line">		_, mdBytes, codeStream, err := r.PackageProvider.GetChaincodePackage(ccid)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">		<span class="keyword">defer</span> codeStream.Close()</span><br><span class="line">		<span class="comment">//利用外部编译器对链码进行探测，如果检查是外部链码则尝试进行编译</span></span><br><span class="line">		instance, err = r.ExternalBuilder.Build(ccid, mdBytes, codeStream)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">		<span class="comment">//尝试用Docker编译容器</span></span><br><span class="line">	<span class="keyword">if</span> instance == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> r.DockerBuilder == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> errors.New(<span class="string">&quot;no DockerBuilder, cannot build&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">//获取原生链码包</span></span><br><span class="line">		metadata, _, codeStream, err := r.PackageProvider.GetChaincodePackage(ccid)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">		<span class="keyword">defer</span> codeStream.Close()</span><br><span class="line">		<span class="comment">//执行编译</span></span><br><span class="line">		instance, err = r.DockerBuilder.Build(ccid, metadata, codeStream)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	r.mutex.Lock()</span><br><span class="line">	<span class="keyword">defer</span> r.mutex.Unlock()</span><br><span class="line">	<span class="keyword">if</span> r.containers == <span class="literal">nil</span> &#123;</span><br><span class="line">		r.containers = <span class="keyword">map</span>[<span class="type">string</span>]Instance&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	r.containers[ccid] = instance</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终会调用</p>
+<h4 id="core-chaincode-platforms-platforms-go"><a href="#core-chaincode-platforms-platforms-go" class="headerlink" title="core/chaincode/platforms/platforms.go"></a>core/chaincode/platforms/platforms.go</h4><h5 id="GenerateDockerBuild"><a href="#GenerateDockerBuild" class="headerlink" title="#GenerateDockerBuild"></a>#GenerateDockerBuild</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Registry)</span></span> GenerateDockerBuild(ccType, path <span class="type">string</span>, codePackage io.Reader, client *docker.Client) (io.Reader, <span class="type">error</span>) &#123;</span><br><span class="line">	inputFiles := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">byte</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//生成特定于我们上下文的Dockerfile</span></span><br><span class="line">	dockerFile, err := r.GenerateDockerfile(ccType)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;Failed to generate a Dockerfile: %s&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	inputFiles[<span class="string">&quot;Dockerfile&quot;</span>] = []<span class="type">byte</span>(dockerFile)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//最后，启动一个异步进程，将以上所有内容流式传输到docker构建上下文中</span></span><br><span class="line">	input, output := io.Pipe()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		gw := gzip.NewWriter(output)</span><br><span class="line">		tw := tar.NewWriter(gw)</span><br><span class="line">		err := r.StreamDockerBuild(ccType, path, codePackage, inputFiles, tw, client)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			logger.Error(err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		tw.Close()</span><br><span class="line">		gw.Close()</span><br><span class="line">		output.CloseWithError(err)</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> input, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>KuanXY</li>
+    <li><strong>本文链接：</strong><a href="https://kuanxy.github.io/2023/04/13/Fabric-chaincode-analysis-01/index.html" title="https:&#x2F;&#x2F;kuanxy.github.io&#x2F;2023&#x2F;04&#x2F;13&#x2F;Fabric-chaincode-analysis-01&#x2F;index.html">https:&#x2F;&#x2F;kuanxy.github.io&#x2F;2023&#x2F;04&#x2F;13&#x2F;Fabric-chaincode-analysis-01&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/ed9f37fb143d5ba3c3b3bf35572c4a9.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/fabric/" rel="tag">fabric</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2023/04/11/github%E5%8A%A0%E9%80%9F/">github加速<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E7%A0%81%E5%90%AF%E5%8A%A8%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">链码启动与初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ExecuteLegacyInit"><span class="toc-text">ExecuteLegacyInit</span></a></li></ol></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
+      </a><a 
+        href="https://github.com/zhaoo "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:izhaoo@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
