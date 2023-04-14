@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>First Blog</title>
+    <url>/2023/04/11/First-Blog/</url>
+    <content><![CDATA[<p>hello gzh!</p>
+<p>数学物理专题</p>
+]]></content>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>benchmark</title>
+    <url>/2023/04/11/benchmark/</url>
+    <content><![CDATA[<h2 id="SysBench"><a href="#SysBench" class="headerlink" title="SysBench"></a><strong>SysBench</strong></h2><p>本文介绍使用SysBench工具对docker容器内的MySQL进行测试的安装测试过程。</p>
+<hr>
+<blockquote>
+<p>参考博客[(76条消息) <a href="https://blog.csdn.net/liangsena/article/details/128151041">MySQL]-压力测试之Sysbench_sysbench测试mysql_森格的博的博客-CSDN博客</a></p>
+<p>简介：在docker中安装mysql和sysbench，并使用sysbench测试mysql</p>
+</blockquote>
+<span id="more"></span>
+
+<h3 id="构建MySQL的docker容器"><a href="#构建MySQL的docker容器" class="headerlink" title="构建MySQL的docker容器"></a>构建MySQL的docker容器</h3><p><strong>安装的镜像介绍：</strong><a href="https://hub.docker.com/r/ubuntu/mysql">ubuntu/mysql - Docker Image | Docker Hub</a></p>
+<ol>
+<li>拉取docker镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull ubuntu/mysql</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>运行docker容器</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name mysql-container -e TZ=UTC -p 30306:3306 -e MYSQL_ROOT_PASSWORD=123 ubuntu/mysql:latest</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>进入docker容器</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it mysql-container /bin/bash</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Sysbench测试"><a href="#Sysbench测试" class="headerlink" title="Sysbench测试"></a>Sysbench测试</h3><p><strong>(以下操作均在docker容器内部进行)</strong></p>
+<ol>
+<li>更新并安装依赖包</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt update</span><br><span class="line"></span><br><span class="line">apt install -y vim curl</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>编辑my.cnf</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/mysql/my.cnf</span><br><span class="line"></span><br><span class="line">在最后加上skip-grant-tables （这步是跳过权限检查）</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>连接mysql数据库</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -u root -p  然后输入密码 （后面直接输mysql就可以了）</span><br><span class="line"></span><br><span class="line">显示当前的数据库: show databases;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>创建数据库</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">create database loadtest;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">（附删除数据库操作：drop database loadtest;）</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>断开mysql连接</li>
+</ol>
+<p><code>exit</code></p>
+<ol start="6">
+<li>安装sysbench</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt-get install -y sysbench</span><br></pre></td></tr></table></figure>
+
+<p>(可选，查看sysbench版本检查是否安装成功：sysbench –version)</p>
+<ol start="7">
+<li>构造测试数据（注意，下面的命令里不能像博客里一样设置ip地址）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sysbench --db-driver=mysql --mysql-db=loadtest --report-interval=10 --mysql-user=root --mysql-password=123 --mysql-port=3306 --tables=10 --table-size=1000 --threads=20 oltp_read_write prepare</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>运行</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sysbench --db-driver=mysql --mysql-db=loadtest --time=100 --report-interval=10 --mysql-user=root --mysql-password=123 --mysql-port=3306 --tables=10 --table-size=1000 --threads=20 oltp_read_write run</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>benchmark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Opengrok（Docker）搭建源码阅读环境</title>
+    <url>/2023/04/14/Opnegrok%EF%BC%88Docker%EF%BC%89%E6%90%AD%E5%BB%BA%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<hr>
+<p>本文基于docker容器的Opengrok，快速搭建源码阅读环境。</p>
+<span id="more"></span>
+
+<p>Opengrok的github：</p>
+<p><a href="https://github.com/oracle/opengrok/blob/master/docker/README.md">opengrok/README.md at master · oracle/opengrok (github.com)</a></p>
+<p>Opengrok的Docker Hub：</p>
+<p><a href="https://hub.docker.com/r/opengrok/docker">opengrok/docker - Docker Image | Docker Hub</a></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name opengrok \</span><br><span class="line">    -p <span class="number">12306</span>:<span class="number">8080</span>/tcp \</span><br><span class="line">    -e SYNC_PERIOD_MINUTES=<span class="string">&quot;60&quot;</span> \</span><br><span class="line">    -v /home/zhguan/src:/opengrok/src/ \</span><br><span class="line">    -v /home/zhguan/etc:/opengrok/etc/ \</span><br><span class="line">    -v /home/zhguan/data:/opengrok/data/ \</span><br><span class="line">    opengrok/docker:latest</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>命令行解释：</p>
+<ul>
+<li>-d：后台运行    </li>
+<li>-v：将宿主机的某个目录挂载到容器内的目录，这里是将某个目录挂载到<code>/opengrok/src</code></li>
+<li>-p：将宿主机的12306端口映射到容器的8080端口</li>
+<li>-e：设置环境变量，SYNC_PERIOD_MINUTES是索引的更新周期，这里设置半小时更新一次</li>
+</ul>
+</li>
+<li><p>查看搭建情况（chatgpt生成）：</p>
+</li>
+</ul>
+<p>可以使用以下步骤在Ubuntu上查看本地网页内容：</p>
+<ol>
+<li><p>打开您的网页，例如 <a href="http://localhost:8080/">http://localhost:8080</a>。</p>
+</li>
+<li><p>然后打开终端。</p>
+</li>
+<li><p>使用 curl 命令来获取该网页的内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl http://localhost:8080</span><br></pre></td></tr></table></figure></li>
+<li><p>终端将输出该网页的 HTML 内容。如果您的网页使用其他类型的内容（如 JSON 或 XML），则可以添加参数 -H “Content-Type: application/json” 或 -H “Content-Type: application/xml” 来相应地指定内容类型。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -H &quot;Content-Type: application/json&quot; http://localhost:8080</span><br></pre></td></tr></table></figure></li>
+<li><p>如果您想将输出保存到文件中，可以使用以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl http://localhost:8080 &gt; output.html</span><br></pre></td></tr></table></figure>
+
+<p>这将把网页的内容保存到名为 output.html 的文件中。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>源码阅读</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Fabric chaincode analysis 01</title>
+    <url>/2023/04/13/Fabric-chaincode-analysis-01/</url>
+    <content><![CDATA[<hr>
+<blockquote>
+<p>本文参考《区块链——原理、设计与应用》及Fabric源码撰写</p>
+</blockquote>
+<p>本文主要分析Fabric链码启动与初始化流程。<span id="more"></span></p>
+<h2 id="链码启动与初始化"><a href="#链码启动与初始化" class="headerlink" title="链码启动与初始化"></a>链码启动与初始化</h2><h3 id="ExecuteLegacyInit"><a href="#ExecuteLegacyInit" class="headerlink" title="ExecuteLegacyInit"></a>ExecuteLegacyInit</h3><h4 id="core-endorser-support-go"><a href="#core-endorser-support-go" class="headerlink" title="core/endorser/support.go"></a>core/endorser/support.go</h4><h5 id="ExecuteLegacyInit-1"><a href="#ExecuteLegacyInit-1" class="headerlink" title="#ExecuteLegacyInit"></a>#ExecuteLegacyInit</h5><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 执行初始化部署方案并返回链码响应</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SupportImpl)</span></span> ExecuteLegacyInit(txParams *ccprovider.TransactionParams, name, version <span class="type">string</span>, input *pb.ChaincodeInput) (*pb.Response, *pb.ChaincodeEvent, <span class="type">error</span>) &#123;</span><br><span class="line">   <span class="keyword">return</span> s.ChaincodeSupport.ExecuteLegacyInit(txParams, name, version, input)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编译和启动链码"><a href="#编译和启动链码" class="headerlink" title="编译和启动链码"></a>编译和启动链码</h4><h4 id="core-chaincode-chaincode-support-go"><a href="#core-chaincode-chaincode-support-go" class="headerlink" title="core/chaincode/chaincode_support.go"></a>core/chaincode/chaincode_support.go</h4><h5 id="ExecuteLegacyInit-2"><a href="#ExecuteLegacyInit-2" class="headerlink" title="#ExecuteLegacyInit"></a>#ExecuteLegacyInit</h5><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*ExecuteLegacyInit是一个临时方法，一旦旧样式的生命周期被完全否决，就应该删除它。理想情况下，在引入新的生命周期之后发布一个版本。它不尝试基于生命周期中的信息启动链代码，而是直接接受ChaincodeDeploymentSpec形式的容器信息。*/</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cs *ChaincodeSupport)</span></span> ExecuteLegacyInit(txParams *ccprovider.TransactionParams, ccName, ccVersion <span class="type">string</span>, input *pb.ChaincodeInput) (*pb.Response, *pb.ChaincodeEvent, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">/*FIXME：这是一个Hacker，我们不应该手动构建ccid，而是让生命周期为我们构建它。然而，这是将消失的遗留代码，因此目前可以接受（FAB-14627）*/</span></span><br><span class="line">	ccid := ccName + <span class="string">&quot;:&quot;</span> + ccVersion</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//若链码未实例化，则先启动并等待完成</span></span><br><span class="line">	h, err := cs.Launch(ccid)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//链码完成初始化：发送INIT消息给启动的链码容器</span></span><br><span class="line">	resp, err := cs.execute(pb.ChaincodeMessage_INIT, txParams, ccName, input, h)</span><br><span class="line">    <span class="comment">//返回执行结果</span></span><br><span class="line">	<span class="keyword">return</span> processChaincodeExecutionResult(txParams.TxID, ccName, resp, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ChaincodeSupport结构体"><a href="#ChaincodeSupport结构体" class="headerlink" title="ChaincodeSupport结构体"></a>ChaincodeSupport结构体</h5><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ChaincodeSupport负责提供与peer链码的接口。</span></span><br><span class="line"><span class="keyword">type</span> ChaincodeSupport <span class="keyword">struct</span> &#123;</span><br><span class="line">	ACLProvider            ACLProvider</span><br><span class="line">	AppConfig              ApplicationConfigRetriever</span><br><span class="line">	BuiltinSCCs            scc.BuiltinSCCs</span><br><span class="line">	DeployedCCInfoProvider ledger.DeployedChaincodeInfoProvider</span><br><span class="line">	ExecuteTimeout         time.Duration</span><br><span class="line">	InstallTimeout         time.Duration</span><br><span class="line">	HandlerMetrics         *HandlerMetrics</span><br><span class="line">	HandlerRegistry        *HandlerRegistry</span><br><span class="line">	Keepalive              time.Duration</span><br><span class="line">	Launcher               Launcher</span><br><span class="line">	Lifecycle              Lifecycle</span><br><span class="line">	Peer                   *peer.Peer</span><br><span class="line">	Runtime                Runtime</span><br><span class="line">	TotalQueryLimit        <span class="type">int</span></span><br><span class="line">	UserRunsCC             <span class="type">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="cs-Launch-ccid"><a href="#cs-Launch-ccid" class="headerlink" title="#cs.Launch(ccid)"></a>#cs.Launch(ccid)</h5><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cs *ChaincodeSupport)</span></span> Launch(ccid <span class="type">string</span>) (*Handler, <span class="type">error</span>) &#123;</span><br><span class="line">   <span class="keyword">if</span> h := cs.HandlerRegistry.Handler(ccid); h != <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> h, <span class="literal">nil</span></span><br><span class="line">   &#125;</span><br><span class="line">	<span class="comment">//创建并启动链码，核心过程</span></span><br><span class="line">   <span class="keyword">if</span> err := cs.Launcher.Launch(ccid, cs); err != <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>, errors.Wrapf(err, <span class="string">&quot;could not launch chaincode %s&quot;</span>, ccid)</span><br><span class="line">   &#125;</span><br><span class="line">	<span class="comment">//添加链码处理句柄</span></span><br><span class="line">   h := cs.HandlerRegistry.Handler(ccid)</span><br><span class="line">   <span class="keyword">if</span> h == <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>, errors.Errorf(<span class="string">&quot;claimed to start chaincode container for %s but could not find handler&quot;</span>, ccid)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> h, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="core-chaincode-runtime-launcher-go"><a href="#core-chaincode-runtime-launcher-go" class="headerlink" title="core/chaincode/runtime_launcher.go"></a>core/chaincode/runtime_launcher.go</h4><h5 id="Launch"><a href="#Launch" class="headerlink" title="#Launch"></a>#Launch</h5><p>简化错误应答</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *RuntimeLauncher)</span></span> Launch(ccid <span class="type">string</span>, streamHandler extcc.StreamHandler) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> startFailCh <span class="keyword">chan</span> <span class="type">error</span></span><br><span class="line">	<span class="keyword">var</span> timeoutCh &lt;-<span class="keyword">chan</span> time.Time</span><br><span class="line"></span><br><span class="line">	startTime := time.Now()</span><br><span class="line">	launchState, alreadyStarted := r.Registry.Launching(ccid)</span><br><span class="line">    <span class="comment">//如果没有启动则使用go routine启动链码容器</span></span><br><span class="line">	<span class="keyword">if</span> !alreadyStarted &#123;</span><br><span class="line">		startFailCh = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">error</span>, <span class="number">1</span>)</span><br><span class="line">		timeoutCh = time.NewTimer(r.StartupTimeout).C</span><br><span class="line">		<span class="comment">//启动一个go routine并编译并启动链码容器</span></span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="comment">// 完成构建过程以获得一致性信息</span></span><br><span class="line">			ccservinfo, err := r.Runtime.Build(ccid)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 指示的链码服务器型号。。。继续连接到CC</span></span><br><span class="line">			<span class="keyword">if</span> ccservinfo != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 默认peer-server模型。。。计算CC回调的连接信息</span></span><br><span class="line">			<span class="comment">// 并继续启动链代码</span></span><br><span class="line">			ccinfo, err := r.ChaincodeClientInfo(ccid) <span class="comment">//计算链码连接信息</span></span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">			<span class="keyword">if</span> ccinfo == <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">            <span class="comment">//尝试创建链码容器，并启动它</span></span><br><span class="line">			<span class="keyword">if</span> err = r.Runtime.Start(ccid, ccinfo); err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">            <span class="comment">//等待链码编译后完成</span></span><br><span class="line">			exitCode, err := r.Runtime.Wait(ccid)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">			launchState.Notify(errors.Errorf(<span class="string">&quot;container exited with %d&quot;</span>, exitCode))</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> err <span class="type">error</span></span><br><span class="line">	<span class="keyword">select</span> &#123; <span class="comment">//等待启动后的返回状态</span></span><br><span class="line">	<span class="keyword">case</span> &lt;-launchState.Done(): <span class="comment">//启动后未完成注册</span></span><br><span class="line">	<span class="keyword">case</span> err = &lt;-startFailCh: <span class="comment">//启动失败</span></span><br><span class="line">	<span class="keyword">case</span> &lt;-timeoutCh: <span class="comment">//启动超时</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	success := <span class="literal">true</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &amp;&amp; !alreadyStarted &#123; <span class="comment">//启动和失败则取消链码注册信息</span></span><br><span class="line">		success = <span class="literal">false</span></span><br><span class="line">		chaincodeLogger.Debugf(<span class="string">&quot;stopping due to error while launching: %+v&quot;</span>, err)</span><br><span class="line">		<span class="keyword">defer</span> r.Registry.Deregister(ccid)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	r.Metrics.LaunchDuration.With(</span><br><span class="line">		<span class="string">&quot;chaincode&quot;</span>, ccid,</span><br><span class="line">		<span class="string">&quot;success&quot;</span>, strconv.FormatBool(success),</span><br><span class="line">	).Observe(time.Since(startTime).Seconds())</span><br><span class="line"></span><br><span class="line">	chaincodeLogger.Debug(<span class="string">&quot;launch complete&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="core-container-container-go"><a href="#core-container-container-go" class="headerlink" title="core/container/container.go"></a>core/container/container.go</h4><p>#Build</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Router)</span></span> Build(ccid <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> instance Instance</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> r.ExternalBuilder != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// 目前，我们从FS中检索到的包ID始终是链代码用于注册的ccid</span></span><br><span class="line">		_, mdBytes, codeStream, err := r.PackageProvider.GetChaincodePackage(ccid)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">		<span class="keyword">defer</span> codeStream.Close()</span><br><span class="line">		<span class="comment">//利用外部编译器对链码进行探测，如果检查是外部链码则尝试进行编译</span></span><br><span class="line">		instance, err = r.ExternalBuilder.Build(ccid, mdBytes, codeStream)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">		<span class="comment">//尝试用Docker编译容器</span></span><br><span class="line">	<span class="keyword">if</span> instance == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> r.DockerBuilder == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> errors.New(<span class="string">&quot;no DockerBuilder, cannot build&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">//获取原生链码包</span></span><br><span class="line">		metadata, _, codeStream, err := r.PackageProvider.GetChaincodePackage(ccid)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">		<span class="keyword">defer</span> codeStream.Close()</span><br><span class="line">		<span class="comment">//执行编译</span></span><br><span class="line">		instance, err = r.DockerBuilder.Build(ccid, metadata, codeStream)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	r.mutex.Lock()</span><br><span class="line">	<span class="keyword">defer</span> r.mutex.Unlock()</span><br><span class="line">	<span class="keyword">if</span> r.containers == <span class="literal">nil</span> &#123;</span><br><span class="line">		r.containers = <span class="keyword">map</span>[<span class="type">string</span>]Instance&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	r.containers[ccid] = instance</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终会调用</p>
+<h4 id="core-chaincode-platforms-platforms-go"><a href="#core-chaincode-platforms-platforms-go" class="headerlink" title="core/chaincode/platforms/platforms.go"></a>core/chaincode/platforms/platforms.go</h4><h5 id="GenerateDockerBuild"><a href="#GenerateDockerBuild" class="headerlink" title="#GenerateDockerBuild"></a>#GenerateDockerBuild</h5><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Registry)</span></span> GenerateDockerBuild(ccType, path <span class="type">string</span>, codePackage io.Reader, client *docker.Client) (io.Reader, <span class="type">error</span>) &#123;</span><br><span class="line">	inputFiles := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">byte</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//生成特定于我们上下文的Dockerfile</span></span><br><span class="line">	dockerFile, err := r.GenerateDockerfile(ccType)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;Failed to generate a Dockerfile: %s&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//将将</span></span><br><span class="line">	inputFiles[<span class="string">&quot;Dockerfile&quot;</span>] = []<span class="type">byte</span>(dockerFile)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//最后，启动一个异步进程，将以上所有内容流式传输到docker构建上下文中</span></span><br><span class="line">	input, output := io.Pipe()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		gw := gzip.NewWriter(output)</span><br><span class="line">		tw := tar.NewWriter(gw)</span><br><span class="line">		err := r.StreamDockerBuild(ccType, path, codePackage, inputFiles, tw, client)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			logger.Error(err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		tw.Close()</span><br><span class="line">		gw.Close()</span><br><span class="line">		output.CloseWithError(err)</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> input, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="core-chaincode-platforms-golang-platform-go"><a href="#core-chaincode-platforms-golang-platform-go" class="headerlink" title="core/chaincode/platforms/golang/platform.go"></a>core/chaincode/platforms/golang/platform.go</h4><h5 id="构造Dockerfile"><a href="#构造Dockerfile" class="headerlink" title="构造Dockerfile"></a>构造Dockerfile</h5><p>Dockerfile的生成：Dockerfile是通过GetDockerImageFromConfig函数读取默认配置(path: chaincode.golang.runtime ) 并将对应变量进行替换后生成的。</p>
+<h6 id="GenerateDockerfile"><a href="#GenerateDockerfile" class="headerlink" title="#GenerateDockerfile"></a>#GenerateDockerfile</h6><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Platform)</span></span> GenerateDockerfile() (<span class="type">string</span>, <span class="type">error</span>) &#123;</span><br><span class="line">   <span class="keyword">var</span> buf []<span class="type">string</span></span><br><span class="line">   buf = <span class="built_in">append</span>(buf, <span class="string">&quot;FROM &quot;</span>+util.GetDockerImageFromConfig(<span class="string">&quot;chaincode.golang.runtime&quot;</span>))</span><br><span class="line">   buf = <span class="built_in">append</span>(buf, <span class="string">&quot;ADD binpackage.tar /usr/local/bin&quot;</span>)</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> strings.Join(buf, <span class="string">&quot;\n&quot;</span>), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="GetDockerImageFromConfig"><a href="#GetDockerImageFromConfig" class="headerlink" title="#GetDockerImageFromConfig"></a>#GetDockerImageFromConfig</h6><blockquote>
+<p>core/chaincode/platforms/util/utils.go</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// GetDockerImageFromConfig replaces variables in the config</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetDockerImageFromConfig</span><span class="params">(path <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">   r := strings.NewReplacer(</span><br><span class="line">      <span class="string">&quot;$(ARCH)&quot;</span>, runtime.GOARCH,</span><br><span class="line">      <span class="string">&quot;$(PROJECT_VERSION)&quot;</span>, metadata.Version,</span><br><span class="line">      <span class="string">&quot;$(TWO_DIGIT_VERSION)&quot;</span>, twoDigitVersion(metadata.Version),</span><br><span class="line">      <span class="string">&quot;$(DOCKER_NS)&quot;</span>, metadata.DockerNamespace)</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> r.Replace(viper.GetString(path))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="core-yaml配置文件"><a href="#core-yaml配置文件" class="headerlink" title="#core.yaml配置文件"></a>#core.yaml配置文件</h6><p>在core.yaml配置文件中设置，通过fabric-ccenv</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">chaincode:</span></span><br><span class="line">    <span class="attr">id:</span></span><br><span class="line">        <span class="attr">path:</span></span><br><span class="line">        <span class="attr">name:</span></span><br><span class="line">        <span class="comment"># Generic builder environment, suitable for most chaincode types</span></span><br><span class="line">    <span class="attr">builder:</span> <span class="string">$(DOCKER_NS)/fabric-ccenv:$(TWO_DIGIT_VERSION)</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">pull:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">golang:</span></span><br><span class="line">        <span class="comment"># golang will never need more than baseos</span></span><br><span class="line">        <span class="attr">runtime:</span> <span class="string">$(DOCKER_NS)/fabric-baseos:$(TWO_DIGIT_VERSION)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># whether or not golang chaincode should be linked dynamically</span></span><br><span class="line">        <span class="attr">dynamicLink:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>fabric</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/04/11/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>github加速</title>
+    <url>/2023/04/11/github%E5%8A%A0%E9%80%9F/</url>
+    <content><![CDATA[<p>github在下载时速度过慢，可以用下面的加速网站:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">https://gh.api.99988866.xyz</span><br><span class="line">https://gh.con.sh</span><br><span class="line">https://gh.ddlc.top</span><br><span class="line">https://gh2.yanqishui.work</span><br><span class="line">https://ghdl.feizhuqwq.cf</span><br><span class="line">https://ghproxy.com</span><br><span class="line">https://ghps.cc</span><br><span class="line">https://git.xfj0.cn</span><br><span class="line">https://github.91chi.fun</span><br><span class="line">https://proxy.zyun.vip</span><br></pre></td></tr></table></figure>
+
+<p>使用方法：</p>
+<p>将上述任意网址复制到目标网址前，git clone [上述网站]/[目标网址]，例如：</p>
+<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230411191439353.png" alt="git clone示例"></p>
+]]></content>
+      <categories>
+        <category>计算机</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux进程调度及管理分析</title>
+    <url>/2023/04/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%9E%E9%AA%8C%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6/</url>
+    <content><![CDATA[<h2 id="Linux进程调度原理"><a href="#Linux进程调度原理" class="headerlink" title="Linux进程调度原理"></a>Linux进程调度原理</h2><p>进程是运行中的程序。程序是一个静态的概念，而进程是一个动态的概念，因此一旦多进程动态调度起来，情况一定就变得复杂的多。</p>
+<span id="more"></span>
+
+<p>Linux内核：4.4.6 <a href="https://elixir.bootlin.com/linux/v4.4.6/source">Linux source code (v4.4.6) - Bootlin</a></p>
+<h3 id="一、进程描述符"><a href="#一、进程描述符" class="headerlink" title="一、进程描述符"></a>一、进程描述符</h3><h4 id="进程控制块（PCB）"><a href="#进程控制块（PCB）" class="headerlink" title="进程控制块（PCB）"></a>进程控制块（PCB）</h4><p>PCB是OS控制进程运行的数据结构。PCB的代码位于<a href="https://elixir.bootlin.com/linux/v4.4.6/source/include/linux/sched.h#L1379"><code>include\linux\sched.h</code>的1380行</a>。数据结构名为<code>task_struct</code>，该结构内代码较多，抽象如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span>&#123;</span></span><br><span class="line">	<span class="keyword">volatile</span> <span class="type">long</span> state; <span class="comment">//运行状态，-1未运行，0运行，&gt;0终止</span></span><br><span class="line">    <span class="type">void</span> *<span class="built_in">stack</span>; <span class="comment">//指向thread_info的指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">mm_struct</span> *<span class="title">mm</span>, *<span class="title">active_mm</span>;</span> </span><br><span class="line">    <span class="type">pid_t</span> pid; <span class="comment">//进程标识信息</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fs_struct</span> *<span class="title">fs</span>； //文件系统信息</span></span><br><span class="line"><span class="class">    <span class="keyword">struct</span> <span class="title">files_struct</span> *<span class="title">files</span>;</span> <span class="comment">//打开文件信息</span></span><br><span class="line">    <span class="comment">/* 信号句柄 */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">signal_struct</span> *<span class="title">signal</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sigpending</span> <span class="title">pending</span>;</span></span><br><span class="line"> 	<span class="class"><span class="keyword">struct</span> <span class="title">thread_struct</span> <span class="title">thread</span>;</span> <span class="comment">//该进程的CPU特定状态   </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="二、进程调度时机"><a href="#二、进程调度时机" class="headerlink" title="二、进程调度时机"></a>二、进程调度时机</h3><h4 id="内核控制流"><a href="#内核控制流" class="headerlink" title="内核控制流"></a>内核控制流</h4><p>四种内核控制流分别为：中断处理函数、异常处理函数、系统调用、内核线程。</p>
+<ul>
+<li><p>中断处理函数</p>
+<p>apic_timer_interrupt、common_interrupt、…</p>
+<p><strong>__do_softirq</strong></p>
+</li>
+<li><p>异常处理函数</p>
+<p>page_fault、nmi、int3、general_protection</p>
+</li>
+<li><p>系统调用总控函数：</p>
+<p><strong>entry_SYSENTER_32、entry_INT80_32</strong></p>
+</li>
+<li><p>内核线程</p>
+<p><strong>kthread</strong></p>
+</li>
+</ul>
+<h4 id="进程调度时机"><a href="#进程调度时机" class="headerlink" title="进程调度时机"></a>进程调度时机</h4><h5 id="1-主动放弃"><a href="#1-主动放弃" class="headerlink" title="1.主动放弃"></a>1.主动放弃</h5><p>在<strong>系统调用</strong>或<strong>内核线程</strong>执行过程中，需要主动放弃时，或者在一些</p>
+<p>有意插入的_cond_resched语句处发现设置了“重新调度”标志时。</p>
+<h5 id="2-重新调度"><a href="#2-重新调度" class="headerlink" title="2.重新调度"></a>2.重新调度</h5><p>在中断、异常和系统调用执行结束、返回用户态之前，如果当前进</p>
+<p>程被设置了<strong>“重新调度”</strong>标志。</p>
+<h2 id="进程调度与切换实验分析"><a href="#进程调度与切换实验分析" class="headerlink" title="进程调度与切换实验分析"></a>进程调度与切换实验分析</h2><h3 id="实验任务"><a href="#实验任务" class="headerlink" title="实验任务"></a>实验任务</h3><p>编⼀个程序（abc.c）在3个进程中分别循环输出字母’A’、’B’和’C’，每输出⼀个字母就主动放弃cpu；然后通过对内核的调试，画出3个进程运行的时序图。</p>
+<p>abc.c代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">loop</span><span class="params">(<span class="type">char</span>* x)</span>&#123;</span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">      write(<span class="number">1</span>, x, <span class="number">1</span>); <span class="comment">//系统调用write输出字符（）</span></span><br><span class="line">      sched_yield(); <span class="comment">//主动放弃CPU</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">  <span class="type">int</span> pid1, pid2, pid3;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;main starting\n&quot;</span>);</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">if</span> (!(pid1 = fork()))&#123; <span class="comment">//系统调用fork创建子进程（成功后父进程返回子进程pid，子进程返回0）</span></span><br><span class="line">    loop(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">if</span> (!(pid2 = fork()))&#123;</span><br><span class="line">    loop(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">if</span> (!(pid3 = fork()))&#123;</span><br><span class="line">    loop(<span class="string">&quot;C&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> status;</span><br><span class="line">  waitpid(pid1, &amp;status, <span class="number">0</span>); <span class="comment">//父进程阻塞</span></span><br><span class="line">  waitpid(pid2, &amp;status, <span class="number">0</span>);</span><br><span class="line">  waitpid(pid3, &amp;status, <span class="number">0</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;main exiting\n&quot;</span>);</span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p>VMware Ubuntu：其上运行qemu虚拟机，连接qemu虚拟机并gdb连接调试</p>
+<p>Qemu Ubuntu：运行Linux内核，并运行abc.c程序</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+</search>
