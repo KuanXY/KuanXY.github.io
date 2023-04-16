@@ -1,89 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>First Blog</title>
-    <url>/2023/04/11/First-Blog/</url>
-    <content><![CDATA[<p>hello gzh!</p>
-<p>数学物理专题</p>
-]]></content>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>benchmark</title>
-    <url>/2023/04/11/benchmark/</url>
-    <content><![CDATA[<h2 id="SysBench"><a href="#SysBench" class="headerlink" title="SysBench"></a><strong>SysBench</strong></h2><p>本文介绍使用SysBench工具对docker容器内的MySQL进行测试的安装测试过程。</p>
-<hr>
-<blockquote>
-<p>参考博客[(76条消息) <a href="https://blog.csdn.net/liangsena/article/details/128151041">MySQL]-压力测试之Sysbench_sysbench测试mysql_森格的博的博客-CSDN博客</a></p>
-<p>简介：在docker中安装mysql和sysbench，并使用sysbench测试mysql</p>
-</blockquote>
-<span id="more"></span>
-
-<h3 id="构建MySQL的docker容器"><a href="#构建MySQL的docker容器" class="headerlink" title="构建MySQL的docker容器"></a>构建MySQL的docker容器</h3><p><strong>安装的镜像介绍：</strong><a href="https://hub.docker.com/r/ubuntu/mysql">ubuntu/mysql - Docker Image | Docker Hub</a></p>
-<ol>
-<li>拉取docker镜像</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull ubuntu/mysql</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>运行docker容器</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name mysql-container -e TZ=UTC -p 30306:3306 -e MYSQL_ROOT_PASSWORD=123 ubuntu/mysql:latest</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>进入docker容器</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it mysql-container /bin/bash</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Sysbench测试"><a href="#Sysbench测试" class="headerlink" title="Sysbench测试"></a>Sysbench测试</h3><p><strong>(以下操作均在docker容器内部进行)</strong></p>
-<ol>
-<li>更新并安装依赖包</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt update</span><br><span class="line"></span><br><span class="line">apt install -y vim curl</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>编辑my.cnf</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/mysql/my.cnf</span><br><span class="line"></span><br><span class="line">在最后加上skip-grant-tables （这步是跳过权限检查）</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>连接mysql数据库</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -u root -p  然后输入密码 （后面直接输mysql就可以了）</span><br><span class="line"></span><br><span class="line">显示当前的数据库: show databases;</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>创建数据库</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">create database loadtest;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">（附删除数据库操作：drop database loadtest;）</span></span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>断开mysql连接</li>
-</ol>
-<p><code>exit</code></p>
-<ol start="6">
-<li>安装sysbench</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt-get install -y sysbench</span><br></pre></td></tr></table></figure>
-
-<p>(可选，查看sysbench版本检查是否安装成功：sysbench –version)</p>
-<ol start="7">
-<li>构造测试数据（注意，下面的命令里不能像博客里一样设置ip地址）</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sysbench --db-driver=mysql --mysql-db=loadtest --report-interval=10 --mysql-user=root --mysql-password=123 --mysql-port=3306 --tables=10 --table-size=1000 --threads=20 oltp_read_write prepare</span><br></pre></td></tr></table></figure>
-
-<ol start="8">
-<li>运行</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sysbench --db-driver=mysql --mysql-db=loadtest --time=100 --report-interval=10 --mysql-user=root --mysql-password=123 --mysql-port=3306 --tables=10 --table-size=1000 --threads=20 oltp_read_write run</span><br></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>benchmark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Opengrok（Docker）搭建源码阅读环境</title>
     <url>/2023/04/14/Opnegrok%EF%BC%88Docker%EF%BC%89%E6%90%AD%E5%BB%BA%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<hr>
@@ -176,6 +93,142 @@
       </tags>
   </entry>
   <entry>
+    <title>First Blog</title>
+    <url>/2023/04/11/First-Blog/</url>
+    <content><![CDATA[<p>hello gzh!</p>
+<p>数学物理专题</p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416130839920.png" alt="image-20230416130839920"></p>
+]]></content>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重返赛尔号</title>
+    <url>/2023/04/15/Saier/</url>
+    <content><![CDATA[<p>最近赛尔号重新回到我的视野，在《我们的客栈》这档综艺上，张杰唱出了《赛尔号的主题曲》，童年回忆，好听热血！</p>
+<span id="more"></span>
+
+<p><a href="https://www.bilibili.com/video/BV1KV4y197uu/?buvid=XXBF171BADEDBA519F07717CC8D1473E6761D&is_story_h5=false&mid=Kqjp3X2i+Yh2JUTtjqqvog==&p=1&plat_id=114&share_from=ugc&share_medium=android&share_plat=android&share_session_id=952c01fa-eaed-499d-8d80-6115462c4edc&share_source=WEIXIN&share_tag=s_i&timestamp=1681272995&unique_k=LFUtgXz&up_id=42043541">【我们的客栈】张杰放飞自我，激情献唱《这里是神奇的赛尔号》_哔哩哔哩_bilibili</a></p>
+<p>赛尔号是童年的最好的回忆之一，所以我重返塞尔号。下载主流浏览器基本都已弃用Flash，所以玩4399的游戏还得专门下载Flash插件。另外还要实名认证才能登录。</p>
+<h3 id="我的塞尔信息"><a href="#我的塞尔信息" class="headerlink" title="我的塞尔信息"></a>我的塞尔信息</h3><p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230415164359624.png" alt="image-20230415164359624"></p>
+<p>最开始玩的时候根本就没有几米，几米只在</p>
+<h3 id="四大星系"><a href="#四大星系" class="headerlink" title="四大星系"></a>四大星系</h3><h4 id="玄武星系（最经典的星系for-everyone）："><a href="#玄武星系（最经典的星系for-everyone）：" class="headerlink" title="玄武星系（最经典的星系for everyone）："></a>玄武星系（最经典的星系for everyone）：</h4><p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230415164518976.png" alt="image-20230415164518976"></p>
+<p>青龙星系（最梦幻的星系for me）：</p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230415164624753.png" alt="image-20230415164624753"></p>
+<p>白虎星系</p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230415164718822.png" alt="image-20230415164718822"></p>
+<p>朱雀星系</p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230415164756092.png" alt="image-20230415164756092"></p>
+<h3 id="特色场景"><a href="#特色场景" class="headerlink" title="特色场景"></a>特色场景</h3><h4 id="光暗迷城"><a href="#光暗迷城" class="headerlink" title="光暗迷城"></a>光暗迷城</h4><p>这个场景进入是随机白天和黑夜两种版本。</p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230415165003123.png" alt="image-20230415165003123"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230415165231591.png" alt="image-20230415165231591"></p>
+<p>吉娜斯和海德拉也是超有特色和感觉的两个精灵！</p>
+<h4 id="怀念的精灵们"><a href="#怀念的精灵们" class="headerlink" title="怀念的精灵们"></a>怀念的精灵们</h4><p>（基本涵盖所有）：</p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000320141.png" alt="image-20230416000320141"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000325814.png" alt="image-20230416000325814"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000406508.png" alt="image-20230416000406508"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000440132.png" alt="image-20230416000440132"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000505034.png" alt="image-20230416000505034"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000533779.png" alt="image-20230416000533779"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000601910.png" alt="image-20230416000601910"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000643431.png" alt="image-20230416000643431"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000722892.png" alt="image-20230416000722892"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000809872.png" alt="image-20230416000809872"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000857700.png" alt="image-20230416000857700"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000931066.png" alt="image-20230416000931066"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416000953740.png" alt="image-20230416000953740"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001016176.png" alt="image-20230416001016176"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001033849.png" alt="image-20230416001033849"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001121469.png" alt="image-20230416001121469"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001307826.png" alt="image-20230416001307826"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001148027.png" alt="image-20230416001148027"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001208673.png" alt="image-20230416001208673"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001244306.png" alt="image-20230416001244306"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001229843.png" alt="image-20230416001229843"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001322168.png" alt="image-20230416001322168"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001347528.png" alt="image-20230416001347528"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001415610.png" alt="image-20230416001415610"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001435583.png" alt="image-20230416001435583"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001459344.png" alt="image-20230416001459344"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001519720.png" alt="image-20230416001519720"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001552526.png" alt="image-20230416001552526"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001643011.png" alt="image-20230416001643011"><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001716128.png" alt="image-20230416001716128"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230416001627753.png" alt="image-20230416001627753"></p>
+]]></content>
+      <categories>
+        <category>娱乐</category>
+      </categories>
+      <tags>
+        <tag>游戏</tag>
+        <tag>hide</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>benchmark</title>
+    <url>/2023/04/11/benchmark/</url>
+    <content><![CDATA[<h2 id="SysBench"><a href="#SysBench" class="headerlink" title="SysBench"></a><strong>SysBench</strong></h2><p>本文介绍使用SysBench工具对docker容器内的MySQL进行测试的安装测试过程。</p>
+<hr>
+<blockquote>
+<p>参考博客[(76条消息) <a href="https://blog.csdn.net/liangsena/article/details/128151041">MySQL]-压力测试之Sysbench_sysbench测试mysql_森格的博的博客-CSDN博客</a></p>
+<p>简介：在docker中安装mysql和sysbench，并使用sysbench测试mysql</p>
+</blockquote>
+<span id="more"></span>
+
+<h3 id="构建MySQL的docker容器"><a href="#构建MySQL的docker容器" class="headerlink" title="构建MySQL的docker容器"></a>构建MySQL的docker容器</h3><p><strong>安装的镜像介绍：</strong><a href="https://hub.docker.com/r/ubuntu/mysql">ubuntu/mysql - Docker Image | Docker Hub</a></p>
+<ol>
+<li>拉取docker镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull ubuntu/mysql</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>运行docker容器</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name mysql-container -e TZ=UTC -p 30306:3306 -e MYSQL_ROOT_PASSWORD=123 ubuntu/mysql:latest</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>进入docker容器</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it mysql-container /bin/bash</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Sysbench测试"><a href="#Sysbench测试" class="headerlink" title="Sysbench测试"></a>Sysbench测试</h3><p><strong>(以下操作均在docker容器内部进行)</strong></p>
+<ol>
+<li>更新并安装依赖包</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt update</span><br><span class="line"></span><br><span class="line">apt install -y vim curl</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>编辑my.cnf</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/mysql/my.cnf</span><br><span class="line"></span><br><span class="line">在最后加上skip-grant-tables （这步是跳过权限检查）</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>连接mysql数据库</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -u root -p  然后输入密码 （后面直接输mysql就可以了）</span><br><span class="line"></span><br><span class="line">显示当前的数据库: show databases;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>创建数据库</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">create database loadtest;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">（附删除数据库操作：drop database loadtest;）</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>断开mysql连接</li>
+</ol>
+<p><code>exit</code></p>
+<ol start="6">
+<li>安装sysbench</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt-get install -y sysbench</span><br></pre></td></tr></table></figure>
+
+<p>(可选，查看sysbench版本检查是否安装成功：sysbench –version)</p>
+<ol start="7">
+<li>构造测试数据（注意，下面的命令里不能像博客里一样设置ip地址）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sysbench --db-driver=mysql --mysql-db=loadtest --report-interval=10 --mysql-user=root --mysql-password=123 --mysql-port=3306 --tables=10 --table-size=1000 --threads=20 oltp_read_write prepare</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>运行</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sysbench --db-driver=mysql --mysql-db=loadtest --time=100 --report-interval=10 --mysql-user=root --mysql-password=123 --mysql-port=3306 --tables=10 --table-size=1000 --threads=20 oltp_read_write run</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>benchmark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2023/04/11/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -194,6 +247,19 @@
 ]]></content>
   </entry>
   <entry>
+    <title>tz4fabric-qemu环境搭建</title>
+    <url>/2023/04/14/tz4fabric-qemu%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<blockquote>
+<p>源码链接：<a href="https://github.com/piachristel/open-source-fabric-optee-chaincode">piachristel/open-source-fabric-optee-chaincode</a></p>
+</blockquote>
+<p>基于qemu搭建tz4fabric环境需要完整两个部分，即proxy和wrapper</p>
+<h3 id="chaincode-proxy"><a href="#chaincode-proxy" class="headerlink" title="chaincode_proxy"></a><strong>chaincode_proxy</strong></h3>]]></content>
+      <tags>
+        <tag>fabric</tag>
+        <tag>optee</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>github加速</title>
     <url>/2023/04/11/github%E5%8A%A0%E9%80%9F/</url>
     <content><![CDATA[<p>github在下载时速度过慢，可以用下面的加速网站:</p>
@@ -201,7 +267,7 @@
 
 <p>使用方法：</p>
 <p>将上述任意网址复制到目标网址前，git clone [上述网站]/[目标网址]，例如：</p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230411191439353.png" alt="git clone示例"></p>
+<p><img src="https://jsdelivr.codeqihan.com/gh/KuanXY/blogImage@main/img/image-20230411191439353.png" alt="git clone示例"></p>
 ]]></content>
       <categories>
         <category>计算机</category>
@@ -334,67 +400,6 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重返赛尔号</title>
-    <url>/2023/04/15/Saier/</url>
-    <content><![CDATA[<p>最近赛尔号重新回到我的视野，在《我们的客栈》这档综艺上，张杰唱出了《赛尔号的主题曲》，童年回忆，好听热血！</p>
-<span id="more"></span>
-
-<p><a href="https://www.bilibili.com/video/BV1KV4y197uu/?buvid=XXBF171BADEDBA519F07717CC8D1473E6761D&is_story_h5=false&mid=Kqjp3X2i+Yh2JUTtjqqvog==&p=1&plat_id=114&share_from=ugc&share_medium=android&share_plat=android&share_session_id=952c01fa-eaed-499d-8d80-6115462c4edc&share_source=WEIXIN&share_tag=s_i&timestamp=1681272995&unique_k=LFUtgXz&up_id=42043541">【我们的客栈】张杰放飞自我，激情献唱《这里是神奇的赛尔号》_哔哩哔哩_bilibili</a></p>
-<p>赛尔号是童年的最好的回忆之一，所以我重返塞尔号。下载主流浏览器基本都已弃用Flash，所以玩4399的游戏还得专门下载Flash插件。另外还要实名认证才能登录。</p>
-<h3 id="我的塞尔信息"><a href="#我的塞尔信息" class="headerlink" title="我的塞尔信息"></a>我的塞尔信息</h3><p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230415164359624.png" alt="image-20230415164359624"></p>
-<p>最开始玩的时候根本就没有几米，几米只在</p>
-<h3 id="四大星系"><a href="#四大星系" class="headerlink" title="四大星系"></a>四大星系</h3><h4 id="玄武星系（最经典的星系for-everyone）："><a href="#玄武星系（最经典的星系for-everyone）：" class="headerlink" title="玄武星系（最经典的星系for everyone）："></a>玄武星系（最经典的星系for everyone）：</h4><p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230415164518976.png" alt="image-20230415164518976"></p>
-<p>青龙星系（最梦幻的星系for me）：</p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230415164624753.png" alt="image-20230415164624753"></p>
-<p>白虎星系</p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230415164718822.png" alt="image-20230415164718822"></p>
-<p>朱雀星系</p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230415164756092.png" alt="image-20230415164756092"></p>
-<h3 id="特色场景"><a href="#特色场景" class="headerlink" title="特色场景"></a>特色场景</h3><h4 id="光暗迷城"><a href="#光暗迷城" class="headerlink" title="光暗迷城"></a>光暗迷城</h4><p>这个场景进入是随机白天和黑夜两种版本。</p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230415165003123.png" alt="image-20230415165003123"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230415165231591.png" alt="image-20230415165231591"></p>
-<p>吉娜斯和海德拉也是超有特色和感觉的两个精灵！</p>
-<h4 id="怀念的精灵们"><a href="#怀念的精灵们" class="headerlink" title="怀念的精灵们"></a>怀念的精灵们</h4><p>（基本涵盖所有）：</p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000320141.png" alt="image-20230416000320141"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000325814.png" alt="image-20230416000325814"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000406508.png" alt="image-20230416000406508"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000440132.png" alt="image-20230416000440132"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000505034.png" alt="image-20230416000505034"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000533779.png" alt="image-20230416000533779"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000601910.png" alt="image-20230416000601910"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000643431.png" alt="image-20230416000643431"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000722892.png" alt="image-20230416000722892"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000809872.png" alt="image-20230416000809872"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000857700.png" alt="image-20230416000857700"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000931066.png" alt="image-20230416000931066"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416000953740.png" alt="image-20230416000953740"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001016176.png" alt="image-20230416001016176"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001033849.png" alt="image-20230416001033849"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001121469.png" alt="image-20230416001121469"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001307826.png" alt="image-20230416001307826"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001148027.png" alt="image-20230416001148027"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001208673.png" alt="image-20230416001208673"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001244306.png" alt="image-20230416001244306"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001229843.png" alt="image-20230416001229843"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001322168.png" alt="image-20230416001322168"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001347528.png" alt="image-20230416001347528"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001415610.png" alt="image-20230416001415610"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001435583.png" alt="image-20230416001435583"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001459344.png" alt="image-20230416001459344"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001519720.png" alt="image-20230416001519720"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001552526.png" alt="image-20230416001552526"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001643011.png" alt="image-20230416001643011"><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001716128.png" alt="image-20230416001716128"></p>
-<p><img src="https://guantypora.oss-cn-chengdu.aliyuncs.com/img/image-20230416001627753.png" alt="image-20230416001627753"></p>
-]]></content>
-      <categories>
-        <category>娱乐</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>tz4fabric-qemu环境搭建</title>
-    <url>/2023/04/14/tz4fabric-qemu%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<blockquote>
-<p>源码链接：<a href="https://github.com/piachristel/open-source-fabric-optee-chaincode">piachristel/open-source-fabric-optee-chaincode</a></p>
-</blockquote>
-<p>基于qemu搭建tz4fabric环境需要完整两个部分，即proxy和wrapper</p>
-<h3 id="chaincode-proxy"><a href="#chaincode-proxy" class="headerlink" title="chaincode_proxy"></a><strong>chaincode_proxy</strong></h3>]]></content>
-      <tags>
-        <tag>fabric</tag>
-        <tag>optee</tag>
       </tags>
   </entry>
 </search>
