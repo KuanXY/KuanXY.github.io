@@ -99,7 +99,7 @@
 <meta property="og:image" content="d:/CS/markdown/Pictures/image-20230414162325653.png">
 <meta property="og:image" content="d:/CS/markdown/Pictures/image-20230414164309954.png">
 <meta property="article:published_time" content="2023-04-12T01:43:19.000Z">
-<meta property="article:modified_time" content="2023-04-16T05:12:36.335Z">
+<meta property="article:modified_time" content="2023-04-16T15:21:16.242Z">
 <meta property="article:author" content="KuanXY">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
@@ -461,6 +461,12 @@
 <li>display ((struct sched_entity *)((void *)$lx_per_cpu(“runqueues”).cfs.rb_leftmost - 0x8))-&gt;vruntime：显示当前 CPU 上 CFS 调度器中最靠左的进程（同上）的虚拟运行时间；</li>
 <li>display ((struct task_struct *)((void *)$lx_per_cpu(“runqueues”).cfs.rb_leftmost - 0x4c))-&gt;pid：显示当前 CPU 上 CFS 调度器中最靠左的进程（同上）的进程 ID。</li>
 </ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">target remote localhost:1234</span><br><span class="line"></span><br><span class="line">break do_execve</span><br><span class="line">  condition $bpnum ($lx_current().mm != 0)</span><br><span class="line">  commands</span><br><span class="line">    printf &quot;filename: %s\n&quot;, filename-&gt;name</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">break __schedule</span><br><span class="line">  commands</span><br><span class="line">    bt</span><br><span class="line">  end</span><br><span class="line">break kernel/sched/core.c:3188</span><br><span class="line"></span><br><span class="line">break __switch_to</span><br><span class="line">  commands</span><br><span class="line">    printf &quot;next_p-&gt;pid: %d\n&quot;, next_p-&gt;pid</span><br><span class="line">    printf &quot;next_p-&gt;se.vruntime: %d\n&quot;, next_p-&gt;se.vruntime</span><br><span class="line">  end</span><br><span class="line">b  process_32.c:318</span><br><span class="line">  commands</span><br><span class="line">    bt</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">break do_fast_syscall_32</span><br><span class="line">  commands</span><br><span class="line">    printf &quot;regs-&gt;orig_ax: %d\n&quot;, regs-&gt;orig_ax</span><br><span class="line">  end</span><br><span class="line">b arch/x86/entry/common.c:486</span><br><span class="line">  commands</span><br><span class="line">    printf &quot;regs-&gt;orig_ax: %d\n&quot;, regs-&gt;orig_ax</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">break prepare_exit_to_usermode</span><br><span class="line"></span><br><span class="line">b do_IRQ</span><br><span class="line">  commands</span><br><span class="line">    printf &quot;irq vector: 0x%x\n&quot;, ~regs-&gt;orig_ax</span><br><span class="line">  end</span><br><span class="line">b smp_apic_timer_interrupt</span><br><span class="line"></span><br><span class="line">b do_page_fault</span><br><span class="line">b do_device_not_available</span><br><span class="line"></span><br><span class="line">b ret_from_exception</span><br><span class="line">b restore_all</span><br><span class="line"></span><br><span class="line">b __do_softirq</span><br><span class="line">b softirq.c:302</span><br><span class="line"></span><br><span class="line">break set_tsk_need_resched</span><br><span class="line"></span><br><span class="line">break enqueue_task_fair</span><br><span class="line">  commands</span><br><span class="line">    printf &quot;p-&gt;pid: %d\n&quot;, p-&gt;pid</span><br><span class="line">    printf &quot;p-&gt;se.vruntime: %d\n&quot;, p-&gt;se.vruntime</span><br><span class="line">  end</span><br><span class="line">break dequeue_task_fair</span><br><span class="line">  commands</span><br><span class="line">    printf &quot;p-&gt;pid: %d\n&quot;, p-&gt;pid</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">break update_curr</span><br><span class="line">  commands</span><br><span class="line">    printf &quot;(gdb) fini\n&quot;</span><br><span class="line">    fini</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">display ((struct sched_entity *)((void *)$lx_per_cpu(&quot;runqueues&quot;).cfs.tasks_timeline.rb_node-&gt;rb_right - 0x8))-&gt;vruntime</span><br><span class="line">display ((struct task_struct *)((void *)$lx_per_cpu(&quot;runqueues&quot;).cfs.tasks_timeline.rb_node-&gt;rb_right - 0x4c))-&gt;pid</span><br><span class="line"></span><br><span class="line">display ((struct sched_entity *)((void *)$lx_per_cpu(&quot;runqueues&quot;).cfs.tasks_timeline.rb_node - 0x8))-&gt;vruntime</span><br><span class="line">display ((struct task_struct *)((void *)$lx_per_cpu(&quot;runqueues&quot;).cfs.tasks_timeline.rb_node - 0x4c))-&gt;pid</span><br><span class="line"></span><br><span class="line">display ((struct sched_entity *)((void *)$lx_per_cpu(&quot;runqueues&quot;).cfs.rb_leftmost - 0x8))-&gt;vruntime</span><br><span class="line">display ((struct task_struct *)((void *)$lx_per_cpu(&quot;runqueues&quot;).cfs.rb_leftmost - 0x4c))-&gt;pid</span><br><span class="line"></span><br><span class="line">display   $lx_per_cpu(&quot;runqueues&quot;).nr_running</span><br><span class="line"></span><br><span class="line">display   $lx_per_cpu(&quot;runqueues&quot;).cfs.min_vruntime</span><br><span class="line"></span><br><span class="line">display   $lx_current().se.vruntime</span><br><span class="line"></span><br><span class="line">display/x $lx_per_cpu(&quot;__preempt_count&quot;)</span><br><span class="line"></span><br><span class="line">display/x $lx_thread_info($lx_current()).flags</span><br><span class="line"></span><br><span class="line">display   $lx_current().comm</span><br><span class="line">display   $lx_current().state</span><br><span class="line">display   $lx_current().pid</span><br><span class="line"></span><br><span class="line">disable</span><br><span class="line">enable 1</span><br><span class="line">dir abc</span><br><span class="line">add-symbol-file abc/abc 0x080482b0</span><br><span class="line">b abc.c:main</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
       
     </div>
@@ -501,8 +507,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2023/04/13/Fabric-chaincode-analysis-01/" rel="prev" title="Fabric chaincode analysis 01">
-                Fabric chaincode analysis 01 <i class="fa fa-chevron-right"></i>
+              <a href="/2023/04/13/Fabric-chaincode-analysis-01/" rel="prev" title="Fabric2.0链码启动和初始化">
+                Fabric2.0链码启动和初始化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -580,7 +586,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -601,10 +607,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 

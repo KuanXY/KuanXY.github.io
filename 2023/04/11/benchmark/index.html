@@ -97,7 +97,7 @@
 <meta property="og:description" content="SysBench本文介绍使用SysBench工具对docker容器内的MySQL进行测试的安装测试过程。   参考博客[(76条消息) MySQL]-压力测试之Sysbench_sysbench测试mysql_森格的博的博客-CSDN博客 简介：在docker中安装mysql和sysbench，并使用sysbench测试mysql">
 <meta property="og:locale">
 <meta property="article:published_time" content="2023-04-11T06:05:16.000Z">
-<meta property="article:modified_time" content="2023-04-16T05:12:36.326Z">
+<meta property="article:modified_time" content="2023-04-16T12:43:59.108Z">
 <meta property="article:author" content="KuanXY">
 <meta property="article:tag" content="benchmark">
 <meta name="twitter:card" content="summary">
@@ -406,6 +406,10 @@
 <li>运行</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysbench --db-driver=mysql --mysql-db=loadtest --time=100 --report-interval=10 --mysql-user=root --mysql-password=123 --mysql-port=3306 --tables=10 --table-size=1000 --threads=20 oltp_read_write run</span><br></pre></td></tr></table></figure>
+
+
+
+
       
     </div>
     
@@ -524,7 +528,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -545,10 +549,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
