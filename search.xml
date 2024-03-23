@@ -455,7 +455,7 @@
   </entry>
   <entry>
     <title>tz4fabric笔记</title>
-    <url>/2023/04/13/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/tz4fabric/</url>
+    <url>/2023/04/13/X/tz4fabric/</url>
     <content><![CDATA[<p>本论文中将自己实现的原型称为：FOC(Fabric OPTEE Chaincode)，其借鉴了IBM发表的FPC(Fabric Private Chaincode)[[1]](#Blockchain and Trusted Computing: Problems, Pitfalls, and a Solution for Hyperledger Fabric)，FPC采用的是Intel SGX作为TEE。而TZ4Fabric提过了一种通过TEE内置proxy的方式提供智能合约机密计算的方式。哈哈哈</p>
 <span id="more"></span>
 
