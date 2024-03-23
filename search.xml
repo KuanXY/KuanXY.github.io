@@ -681,6 +681,8 @@
     <title>Linux常用操作</title>
     <url>/2024/03/23/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/Linux%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h2 id="Linux检索目录内文件指定字符串"><a href="#Linux检索目录内文件指定字符串" class="headerlink" title="Linux检索目录内文件指定字符串"></a>Linux检索目录内文件指定字符串</h2><p>在Linux系统中，你可以使用<code>grep</code>命令来在目录文件内查找指定字符串。<code>grep</code>是一个强大的文本搜索工具，可以用于在文件中查找匹配指定模式的行。</p>
+<span id="more"></span>
+
 <p>下面是一个简单的示例，演示如何在指定目录下的文件中查找包含特定字符串的行：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bashCopy Codegrep -r &quot;your_search_string&quot; /path/to/directory</span><br></pre></td></tr></table></figure>
 
@@ -712,7 +714,7 @@
 ]]></content>
       <categories>
         <category>Linux</category>
-        <category>常用工具</category>
+        <category>常用操作</category>
       </categories>
       <tags>
         <tag>Linux</tag>
