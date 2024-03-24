@@ -28,6 +28,8 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="一些hexo的常规操作"><a href="#一些hexo的常规操作" class="headerlink" title="一些hexo的常规操作"></a>一些hexo的常规操作</h3><p><a href="https://fuguigui.github.io/hexo2/">一次完整的Hexo写作流程 | Fululu (fuguigui.github.io)</a></p>
+<p><a href="https://lasonneil.github.io/2021/08/19/posts/Hexo%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E4%BD%BF%E7%94%A8%E6%96%87%E7%AB%A0%E6%96%B0%E6%A8%A1%E6%9D%BF/">Hexo如何添加使用文章新模板 | 清河的博客 (lasonneil.github.io)</a></p>
 ]]></content>
   </entry>
   <entry>
